@@ -1,0 +1,67 @@
+﻿@model IEnumerable<GoodsStore.Models.Basket>
+
+@{
+    ViewData["Title"] = "Корзина";
+}
+
+<h3>Корзина</h3>
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Итого к оплате:
+                <span >@Model.Sum(a => a.Product.Cost) руб.</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Итого товаров:
+                <span >@Model.Count()</span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Product.NameProduct)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Product.Cost)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Product.Description)
+                    </th>
+                    <th>Изображение</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.NameProduct)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.Description)
+                        </td>
+                        <td>
+                            @{
+                                if (item.Product.Images != null)
+                                {
+                                    foreach (var img in item.Product.Images)
+                                    {
+                                        <img src="data:image/png;base64, @img.Body" alt="@img.Name" class="img-fluid" width="80" />
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

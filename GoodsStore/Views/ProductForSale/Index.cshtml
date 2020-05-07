@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GoodsStore.Models.Product>
+
+@{
+    ViewData["Title"] = "Товары";
+}
+<h4>Товары</h4>
+<div class="row">
+    <div class="col-md-3">
+        <h5>Фильтр по категориям:</h5>
+        <div class="list-group">
+            <a asp-action="Index" asp-controller="ProductForSale" class="list-group-item list-group-item-action list-group-item-primary">Все категории</a>
+            @{
+                foreach (var item in (List<Category>)ViewBag.Category)
+                {
+                    <a asp-action="Index" asp-controller="ProductForSale" asp-route-categories="@item.Id" class="list-group-item list-group-item-action list-group-item-primary">@item.NameCategory</a>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-md-9">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NameProduct)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cost)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category.NameCategory)
+                    </th>
+                    <th>Изображение</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameProduct)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.NameCategory)
+                        </td>
+                        <td>
+                            @{
+                                if (item.Images != null)
+                                {
+                                    foreach (var img in item.Images)
+                                    {
+                                        <img src="data:image/png;base64, @img.Body" alt="@img.Name" class="img-fluid" width="80" />
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="AddBasket" asp-route-id="@item.Id">Добавить в корзину</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

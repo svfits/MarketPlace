@@ -1,0 +1,68 @@
+﻿@model IEnumerable<GoodsStore.Models.Product>
+
+@{
+    ViewData["Title"] = "Список товаров";
+}
+
+<h1>Список товаров</h1>
+
+<p>
+    <a asp-action="Create">Добавить новый товар</a>
+</p>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameProduct)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.NameCategory)
+            </th>
+            <th>Изображение</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameProduct)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.NameCategory)
+            </td>
+            <td>
+                @{
+                    if (item.Images != null)
+                    {
+                        foreach (var img in item.Images)
+                        {
+                            <img src="data:image/png;base64, @img.Body" alt="@img.Name" class="img-fluid" width="80" />
+                        }
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
