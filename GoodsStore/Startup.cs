@@ -71,6 +71,9 @@ namespace GoodsStore
             services.AddDbContext<DataContextApp>(options =>
                  options.UseSqlite("DataSource=GoodStore.db"));
 
+            // Register the service and implementation for the database context
+            services.AddScoped<IDataContextApp>(provider => provider.GetService<DataContextApp>());
+
             services.AddIdentity<User, IdentityRole>()
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddDefaultUI()

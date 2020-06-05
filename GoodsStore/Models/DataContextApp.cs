@@ -10,18 +10,18 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoodsStore.Models
 {
-    public class DataContextApp : IdentityDbContext<User, IdentityRole, string>
+    public class DataContextApp : IdentityDbContext<User, IdentityRole, string>, IDataContextApp
     {
         public DataContextApp(DbContextOptions<DataContextApp> options) : base(options)
         {
             Database.EnsureCreated();
         }
 
-        public DbSet<Basket> Baskets { get; set; }        
+        public DbSet<Basket> Baskets { get; set; }
 
-        public DbSet<GoodsStore.Models.Product> Product { get; set; }        
+        public DbSet<GoodsStore.Models.Product> Product { get; set; }
 
-        public DbSet<GoodsStore.Models.Category> Category { get; set; }        
+        public DbSet<GoodsStore.Models.Category> Category { get; set; }
 
         public DbSet<GoodsStore.ViewsModel.RegisterViewModel> RegisterViewModel { get; set; }
 

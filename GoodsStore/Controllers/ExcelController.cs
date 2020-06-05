@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -15,9 +16,9 @@ namespace GoodsStore.Controllers
     [Authorize(Roles = "Administrator")]
     public class ExcelController : Controller
     {
-        private readonly DataContextApp _context;
+        private readonly IDataContextApp _context;
 
-        public ExcelController(DataContextApp context)
+        public ExcelController(IDataContextApp context)
         {
             _context = context;
         }
