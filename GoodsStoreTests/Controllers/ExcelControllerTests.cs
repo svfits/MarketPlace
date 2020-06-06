@@ -9,6 +9,7 @@ using GoodsStore.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace GoodsStore.Controllers.Tests
 {
@@ -17,35 +18,21 @@ namespace GoodsStore.Controllers.Tests
     {
         [TestMethod()]
         public void ExcelControllerTest()
-        {
-            //var data = new List<>
-            //{
-            //    new Blog { Name = "BBB" },
-            //    new Blog { Name = "ZZZ" },
-            //    new Blog { Name = "AAA" },
-            //}.AsQueryable();
-
+        {            
             var data = LoadJson().AsQueryable();
 
             var mockSet = new Mock<DbSet<Basket>>();
-            mockSet.As<IQueryable<Basket>>()
-                .Setup(m => m.GetEnumerator())
-                .Returns(new TestDbAsyncEnumerator<Basket>(data.GetEnumerator()));
+                        
+            mockSet.As<IQueryable<Basket>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Basket>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Basket>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Basket>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-            //mockSet.As<IQueryable<Blog>>()
-            //    .Setup(m => m.Provider)
-            //    .Returns(new TestDbAsyncQueryProvider<Blog>(data.Provider));
+            var mockContext = new Mock<IDataContextApp>();
+            mockContext.Setup(c => c.Baskets).Returns(mockSet.Object);          
 
-            //mockSet.As<IQueryable<Blog>>().Setup(m => m.Expression).Returns(data.Expression);
-            //mockSet.As<IQueryable<Blog>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            //mockSet.As<IQueryable<Blog>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            //var mockContext = new Mock<BloggingContext>();
-            //mockContext.Setup(c => c.Blogs).Returns(mockSet.Object);
-
-            //var service = new BlogService(mockContext.Object);
-            //var blogs = await service.GetAllBlogsAsync();
-
+            var service = new ExcelController(mockContext.Object);
+            var excelByte = service.Download();
 
             Assert.Fail();
         }
