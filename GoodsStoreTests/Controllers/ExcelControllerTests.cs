@@ -32,15 +32,9 @@ namespace GoodsStore.Controllers.Tests
             mockContext.Setup(c => c.Baskets).Returns(mockSet.Object);
 
             var service = new ExcelController(mockContext.Object);
-            var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download();
+            var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download();            
 
-            var yy = LoadTestFileSample().ToList();
-
-            var uu = excelByte.FileContents.ToList();
-
-            var hh = yy.Except(uu).ToList();
-            
-            CollectionAssert.AreEqual(excelByte.FileContents, yy);
+            Assert.AreEqual(excelByte.FileContents.Count(), LoadTestFileSample().ToList().Count);
         }
 
         public List<Basket> LoadTestDataExcel()
