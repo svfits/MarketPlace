@@ -18,4 +18,13 @@
     <ProjectReference Include="..\GoodsStore\GoodsStore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestingFile\DataContextTEST.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestingFile\Заказанные товары.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -18,36 +18,49 @@ namespace GoodsStore.Controllers.Tests
     {
         [TestMethod()]
         public void ExcelControllerTest()
-        {            
-            var data = LoadJson().AsQueryable();
+        {
+            var data = LoadTestDataExcel().AsQueryable();
 
             var mockSet = new Mock<DbSet<Basket>>();
-                        
+
             mockSet.As<IQueryable<Basket>>().Setup(m => m.Provider).Returns(data.Provider);
             mockSet.As<IQueryable<Basket>>().Setup(m => m.Expression).Returns(data.Expression);
             mockSet.As<IQueryable<Basket>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Basket>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             var mockContext = new Mock<IDataContextApp>();
-            mockContext.Setup(c => c.Baskets).Returns(mockSet.Object);          
+            mockContext.Setup(c => c.Baskets).Returns(mockSet.Object);
 
             var service = new ExcelController(mockContext.Object);
-            var excelByte = service.Download();
+            var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download();
 
-            Assert.Fail();
+            var yy = LoadTestFileSample().ToList();
+
+            var uu = excelByte.FileContents.ToList();
+
+            var hh = yy.Except(uu).ToList();
+            
+            CollectionAssert.AreEqual(excelByte.FileContents, yy);
         }
 
-        [TestMethod()]
-        public void DownloadTest()
+        public List<Basket> LoadTestDataExcel()
         {
-            Assert.Fail();
-        }
-
-        public List<Basket> LoadJson()
-        {
-            using StreamReader r = new StreamReader(@"D:\Projects\MarketPlace\GoodsStoreTests\DataContextTEST.json");
+            string path = Path.Combine(GetPathTestFile(), "DataContextTEST.json");
+            using StreamReader r = new StreamReader(path);
             string json = r.ReadToEnd();
             return JsonConvert.DeserializeObject<List<Basket>>(json);
+        }
+
+        public byte[] LoadTestFileSample()
+        {
+            string path = Path.Combine(GetPathTestFile(), "Заказанные товары.xlsx");
+            var file = File.ReadAllBytes(path);
+            return file;
+        }
+
+        private static string GetPathTestFile()
+        {
+            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\", "TestingFile"));
         }
     }
 }
