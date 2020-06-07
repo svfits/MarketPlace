@@ -27,16 +27,11 @@ namespace GoodsStore.Controllers
         public IActionResult Download()
         {
             byte[] fileContents;
-            //var productInBasket = _context.Baskets
-            //    .Include(a => a.User)
-            //    .Include(q => q.Product)
-            //    .Include(o => o.Product.Category)
-            //    .ToList();
-
-            string path = Path.Combine(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile", "DataContextTEST.json");
-            using StreamReader r = new StreamReader(path);
-            string json = r.ReadToEnd();
-            var productInBasket = JsonConvert.DeserializeObject<List<Basket>>(json);
+            var productInBasket = _context.Baskets
+                .Include(a => a.User)
+                .Include(q => q.Product)
+                .Include(o => o.Product.Category)
+                .ToList();
 
             using (var package = new ExcelPackage())
             {
