@@ -17,9 +17,11 @@ namespace GoodsStore.Controllers.Tests
     public class ExcelControllerTests
     {
         [TestMethod()]
+        [DeploymentItem("TestingFile\\Заказанные товары.xlsx")]
+        [DeploymentItem("TestingFile\\DataContextTEST.json")]
         public void ExcelControllerTest()
         {
-            var data = LoadTestDataExcel().AsQueryable();
+            var data = LoadTestData("DataContextTEST.json").AsQueryable();
 
             var mockSet = new Mock<DbSet<Basket>>();
 
@@ -36,27 +38,20 @@ namespace GoodsStore.Controllers.Tests
 
             File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\FileTarget.xlsx", excelByte.FileContents);
 
-            Assert.AreEqual(excelByte.FileContents.Count(), LoadTestFileSample().ToList().Count, "Файлы не совпадают что то произошло");
+            Assert.AreEqual(excelByte.FileContents.Count(), LoadTestFileSample("Заказанные товары.xlsx").ToList().Count, "Файлы не совпадают что то произошло");
         }
 
-        public List<Basket> LoadTestDataExcel()
-        {
-            string path = Path.Combine(GetPathTestFile(), "DataContextTEST.json");
-            using StreamReader r = new StreamReader(path);
+        public List<Basket> LoadTestData(string fileName)
+        {            
+            using StreamReader r = new StreamReader(fileName);
             string json = r.ReadToEnd();
             return JsonConvert.DeserializeObject<List<Basket>>(json);
         }
 
-        public byte[] LoadTestFileSample()
+        public byte[] LoadTestFileSample(string fileName)
         {
-            string path = Path.Combine(GetPathTestFile(), "Заказанные товары.xlsx");
-            var file = File.ReadAllBytes(path);
+            var file = File.ReadAllBytes(fileName);
             return file;
-        }
-
-        private static string GetPathTestFile()
-        {
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\", "TestingFile"));
         }
     }
 }
