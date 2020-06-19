@@ -36,13 +36,14 @@ namespace GoodsStore.Controllers.Tests
             var service = new ExcelController(mockContext.Object);
             var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download();
 
+            ///тута можно отправить файл дальше на проверку что форматирование правильное
             File.WriteAllBytes("FileTarget.xlsx", excelByte.FileContents);
 
             Assert.AreEqual(excelByte.FileContents.Count(), LoadTestFileSample("Заказанные товары.xlsx").ToList().Count, "Файлы не совпадают что то произошло");
         }
 
         public List<Basket> LoadTestData(string fileName)
-        {            
+        {
             using StreamReader r = new StreamReader(fileName);
             string json = r.ReadToEnd();
             return JsonConvert.DeserializeObject<List<Basket>>(json);
