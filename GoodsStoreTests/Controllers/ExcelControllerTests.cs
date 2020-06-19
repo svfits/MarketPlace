@@ -37,7 +37,7 @@ namespace GoodsStore.Controllers.Tests
             var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download();
 
             ///тута можно отправить файл дальше на проверку что форматирование правильное
-            File.WriteAllBytes("FileTarget.xlsx", excelByte.FileContents);
+            File.WriteAllBytes("TestingFile\\FileTarget.xlsx", excelByte.FileContents);
 
             Assert.AreEqual(excelByte.FileContents.Count(), LoadTestFileSample("Заказанные товары.xlsx").ToList().Count, "Файлы не совпадают что то произошло");
         }
