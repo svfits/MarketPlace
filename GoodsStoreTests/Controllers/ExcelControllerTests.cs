@@ -36,7 +36,7 @@ namespace GoodsStore.Controllers.Tests
             var service = new ExcelController(mockContext.Object);
             var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download();
 
-            File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\FileTarget.xlsx", excelByte.FileContents);
+            File.WriteAllBytes("FileTarget.xlsx", excelByte.FileContents);
 
             Assert.AreEqual(excelByte.FileContents.Count(), LoadTestFileSample("Заказанные товары.xlsx").ToList().Count, "Файлы не совпадают что то произошло");
         }
