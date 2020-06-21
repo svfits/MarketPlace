@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoodsStore.Controllers.API
+namespace GoodsStore.Controllers.API1
 {
     /// <summary>
     /// Первый API контроллер
     /// </summary>
-    [ApiController]
-    [ApiVersion("1")]
+    [ApiController]    
     [Produces("application/json")]
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class API1Controller : ControllerBase
     {
         private readonly DataContextApp _context;

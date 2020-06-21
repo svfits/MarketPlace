@@ -90,53 +90,53 @@ namespace GoodsStore
                     Version = "v1",
                     Title = "Об API",
                     Description = "Пример работы простого API 1",
-                    TermsOfService = new Uri("https://example.com/terms"),
+                    TermsOfService = new Uri("https://vk.com/svfits"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Shayne Boyer",
-                        Email = string.Empty,
-                        Url = new Uri("https://twitter.com/spboyer"),
+                        Name = "Афанасьев Дмитрий",
+                        Email = "a1d1@inbox.ru",
+                        Url = new Uri("https://vk.com/svfits"),
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "Use under LICX",
-                        Url = new Uri("https://example.com/license"),
+                        Name = "Делайте что хотите используйте как угодно",
+                        Url = new Uri("https://vk.com/svfits"),
                     }
                 });
                 c.SwaggerDoc("v2", new OpenApiInfo
-                {                    
+                {
                     Version = "v2",
-                    Title = "ToDo API2",
-                    Description = "A simple example ASP.NET Core Web API 2",
-                    TermsOfService = new Uri("https://example.com/terms"),
+                    Title = "Об API2",
+                    Description = "Пример работы простого API 2",
+                    TermsOfService = new Uri("https://vk.com/svfits"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Shayne Boyer",
-                        Email = string.Empty,
-                        Url = new Uri("https://twitter.com/spboyer"),
+                        Name = "Афанасьев Дмитрий",
+                        Email = "a1d1@inbox.ru",
+                        Url = new Uri("https://vk.com/svfits"),
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "Use under LICX",
-                        Url = new Uri("https://example.com/license"),
+                        Name = "Делайте что хотите используйте как угодно",
+                        Url = new Uri("https://vk.com/svfits"),
                     }
                 });
                 c.SwaggerDoc("v3", new OpenApiInfo
                 {
                     Version = "v3",
-                    Title = "ToDo API3",
-                    Description = "A simple example ASP.NET Core Web API 3",
-                    TermsOfService = new Uri("https://example.com/terms"),
+                    Title = "Об API3",
+                    Description = "Пример работы простого API 3",
+                    TermsOfService = new Uri("https://vk.com/svfits"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Shayne Boyer",
-                        Email = string.Empty,
-                        Url = new Uri("https://twitter.com/spboyer"),
+                        Name = "Афанасьев Дмитрий",
+                        Email = "a1d1@inbox.ru",
+                        Url = new Uri("https://vk.com/svfits"),
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "Use under LICX",
-                        Url = new Uri("https://example.com/license"),
+                        Name = "Делайте что хотите используйте как угодно",
+                        Url = new Uri("https://vk.com/svfits"),
                     }
                 });
 
@@ -184,9 +184,9 @@ namespace GoodsStore
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/API/v1/API1", "My API V1");
-                c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
-                c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Об API");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Об API2");
+                c.SwaggerEndpoint("/swagger/v3/swagger.json", "Об API3");
             });
 
 #endif
@@ -204,7 +204,7 @@ namespace GoodsStore
         {
             var db = serviceProvider.GetRequiredService<DataContextApp>();
 
-            if (db.APIDatas.Take(25).Count() > 0 )
+            if (db.APIDatas.Take(25).Count() < 100)
             {
                 for (int i = 0; i < 20; i++)
                 {

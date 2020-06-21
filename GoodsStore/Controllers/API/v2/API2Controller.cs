@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodsStore.Controllers.API
+namespace GoodsStore.Controllers.API3
 {
     /// <summary>
     /// Второй API контроллер
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [ApiVersion("2.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class API2Controller : ControllerBase
     {
         /// <summary>

@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodsStore.Controllers.API
+namespace GoodsStore.Controllers.API3
 {
     /// <summary>
     /// Третий API контроллер
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [ApiVersion("3.0")]
+    [ApiExplorerSettings(GroupName = "v3")]
     public class API3Controller : ControllerBase
     {
         // GET: api/API3
