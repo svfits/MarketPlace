@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GoodsStore.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodsStore.Controllers.API3
 {
@@ -15,36 +17,103 @@ namespace GoodsStore.Controllers.API3
     [ApiExplorerSettings(GroupName = "v3")]
     public class API3Controller : ControllerBase
     {
-        // GET: api/API3
+        private readonly DataContextApp _context;
+
+        public API3Controller(DataContextApp context)
+        {
+            _context = context;
+        }
+
+        /// <summary>
+        /// Получить все значения value и value2
+        /// </summary>
+        /// <returns>Массив всех данных</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<APIData>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await _context.APIDatas.ToListAsync();
         }
 
-        // GET: api/API3/5
+        /// <summary>
+        /// Получить одно значение value по параметру id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Одно значение из API</returns>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var apiData = _context.APIDatas.FirstOrDefault(q => q.Id == id);
+
+            if (apiData == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(await _context.APIDatas.FirstAsync(q => q.Id == id));
         }
 
-        // POST: api/API3
+        /// <summary>
+        /// Добавить значение value
+        /// </summary>
+        /// <param name="value"></param>
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            _context.APIDatas.Add(new APIData()
+            {
+                Value = value,
+                Value2 = value,
+            });
+
+            _context.SaveChangesAsync();
         }
 
-        // PUT: api/API3/5
+        /// <summary>
+        /// Чего то обновить
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] APIData data)
         {
+            var api = await _context.APIDatas.FirstOrDefaultAsync(m => m.Id == id);
+            if (api == null)
+            {
+                return NotFound();
+            }
+
+            api.Value = data.Value;
+            api.Value2 = data.Value2;
+
+            _context.APIDatas.Update(api);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Удалить элемент id
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var api = await _context.APIDatas.FirstOrDefaultAsync(m => m.Id == id);
+            if (api == null)
+            {
+                return NotFound();
+            }
+
+            _context.APIDatas.Remove(api);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
