@@ -10,6 +10,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System.Collections.Generic;
 using PdfSharp.Fonts;
+using System;
 
 namespace GoodsStore.Controllers
 {
@@ -120,8 +121,8 @@ namespace GoodsStore.Controllers
             //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
             //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
             //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, 22, 45);
-                        
+            gfx.DrawString("Привет МИР!!! ", font, XBrushes.Black, 22, 45);
+
             //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.BaseLineRight);
             //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.BaseLineLeft);
 

@@ -16,13 +16,11 @@ namespace GoodsStore.Controllers.Tests
     [TestClass()]
     public class ReportsControllerTests
     {
-        Mock<IDataContextApp> mockContext = new Mock<IDataContextApp>();
-
         RepotsController service;
 
         [TestInitialize]
         [DeploymentItem("TestingFile\\DataContextTEST.json")]
-        private void MockContext()
+        public void MockContext()
         {
             using StreamReader r = new StreamReader("DataContextTEST.json");
             string json = r.ReadToEnd();
@@ -36,6 +34,8 @@ namespace GoodsStore.Controllers.Tests
             mockSet.As<IQueryable<Basket>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Basket>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
+            var mockContext = new Mock<IDataContextApp>();
+
             mockContext.Setup(c => c.Baskets).Returns(mockSet.Object);
             service = new RepotsController(mockContext.Object);
         }
@@ -43,43 +43,31 @@ namespace GoodsStore.Controllers.Tests
 
         [TestMethod()]
         [DeploymentItem("TestingFile\\Заказанные товары.xlsx")]
-        public void ExcelControllerTest()
+        public void DowloadExcelTest()
         {
             var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DownloadExcel();
 
             ///тута можно отправить файл дальше на проверку что форматирование правильное
-            File.WriteAllBytes("TestingFile\\FileTarget.xlsx", excelByte.FileContents);
+            //File.WriteAllBytes("TestingFile\\FileTarget.xlsx", excelByte.FileContents);
 
             var file = File.ReadAllBytes("Заказанные товары.xlsx");
 
             Assert.AreEqual(excelByte.FileContents.Count(), file.ToList().Count, "Файлы не совпадают что то произошло");
         }
 
-
-
-        //public List<Basket> LoadTestData(string fileName)
-        //{
-        //    using StreamReader r = new StreamReader(fileName);
-        //    string json = r.ReadToEnd();
-        //    return JsonConvert.DeserializeObject<List<Basket>>(json);
-        //}
-
-        //public byte[] LoadTestFileSample(string fileName)
-        //{
-        //    var file = File.ReadAllBytes(fileName);
-        //    return file;
-        //}
-
         [TestMethod()]
+        [DeploymentItem("TestingFile\\Заказанные товары.pdf")]
         public void DownloadPdfTest()
         {
-            var service = new RepotsController(mockContext.Object);
-            var pdfFile = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DownloadPdf();
+            //var service = new RepotsController(mockContext.Object);
+            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DownloadPdf();
 
             ///тута можно отправить файл дальше на проверку что форматирование правильное
-            File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\ggggg22.pdf", pdfFile.FileContents);
+            //File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары.pdf", pdfByte.FileContents);
 
-            Assert.IsTrue(true);
+            var file = File.ReadAllBytes("Заказанные товары.pdf");
+
+            Assert.AreEqual(file.ToList().Count, pdfByte.FileContents.Count(),  "Файлы не совпадают что то произошло");
         }
     }
 }
