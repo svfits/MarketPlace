@@ -67,7 +67,16 @@ namespace GoodsStore.Controllers.Tests
 
             var file = File.ReadAllBytes("Заказанные товары.pdf");
 
-            Assert.AreEqual(file.ToList().Count, pdfByte.FileContents.Count(),  "Файлы не совпадают что то произошло");
+            Assert.AreEqual(file.ToList().Count, pdfByte.FileContents.Count(), "Файлы не совпадают что то произошло");
+        }
+
+        [TestMethod()]
+        public void DowloadPdfFromExcelTest()
+        {
+            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DowloadPdfFromExcel();
+            File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары from Excel.pdf", pdfByte.FileContents);
+
+            Assert.IsTrue(true);
         }
     }
 }

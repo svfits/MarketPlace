@@ -11,6 +11,10 @@ using PdfSharp.Pdf;
 using System.Collections.Generic;
 using PdfSharp.Fonts;
 using System;
+using Spire.Xls;
+using System.Diagnostics;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
+using PdfSharp;
 
 namespace GoodsStore.Controllers
 {
@@ -131,6 +135,48 @@ namespace GoodsStore.Controllers
             document.Save(ms);
             fileContents = ms.ToArray();
             ms.Dispose();
+
+            if (fileContents == null || fileContents.Length == 0)
+            {
+                return NotFound();
+            }
+
+            return File(
+                fileContents: fileContents,
+                contentType: "application/pdf",
+                fileDownloadName: "Заказанные товары.pdf"
+            );
+        }
+
+        public IActionResult DowloadPdfFromExcel()
+        {
+            byte[] fileContents;
+
+            Workbook workbook = new Workbook();
+
+            var excelByte = (FileContentResult)DownloadExcel();
+
+            var str = @"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\NuGet Gallery _ HtmlRenderer.PdfSharp 1.5.0.6.mhtml";
+
+            //MemoryStream msExcel = new MemoryStream(excelByte.FileContents);
+
+            //MemoryStream msPDF = new MemoryStream();
+
+            //workbook.LoadTemplateFromFile(str);
+
+            //workbook.SaveToStream(msPDF, FileFormat.PDF);
+
+            //fileContents = msPDF.ToArray();
+            //msExcel.Dispose();
+            //msPDF.Dispose();
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(str, PdfSharp.PageSize.A4);
+                PdfDocument pdf = PdfGenerator.GeneratePdf("<p><h1>Hello World</h1>This is html rendered text</p>", PageSize.A4);
+                pdf.Save(ms);
+                fileContents = ms.ToArray();
+            }
 
             if (fileContents == null || fileContents.Length == 0)
             {

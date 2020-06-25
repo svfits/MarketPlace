@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.3" />
+    <PackageReference Include="FreeSpire.XLS" Version="10.1.0" />
+    <PackageReference Include="HtmlRenderer.PdfSharp" Version="1.5.1-beta1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
