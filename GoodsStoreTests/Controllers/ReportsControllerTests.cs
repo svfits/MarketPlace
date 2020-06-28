@@ -43,9 +43,9 @@ namespace GoodsStore.Controllers.Tests
 
         [TestMethod()]
         [DeploymentItem("TestingFile\\Заказанные товары.xlsx")]
-        public void DowloadExcelTest()
+        public void Dowload_ExcelTest()
         {
-            var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DownloadExcel();
+            var excelByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download_Excel();
 
             ///тута можно отправить файл дальше на проверку что форматирование правильное
             //File.WriteAllBytes("TestingFile\\FileTarget.xlsx", excelByte.FileContents);
@@ -57,10 +57,10 @@ namespace GoodsStore.Controllers.Tests
 
         [TestMethod()]
         [DeploymentItem("TestingFile\\Заказанные товары.pdf")]
-        public void DownloadPdfTest()
+        public void Download_PdfTest()
         {
             //var service = new RepotsController(mockContext.Object);
-            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DownloadPdf();
+            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download_PDF();
 
             ///тута можно отправить файл дальше на проверку что форматирование правильное
             //File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары.pdf", pdfByte.FileContents);
@@ -71,12 +71,14 @@ namespace GoodsStore.Controllers.Tests
         }
 
         [TestMethod()]
-        public void DowloadPdfFromExcelTest()
+        [DeploymentItem("TestingFile\\Заказанные товары из HTML.pdf")]
+        public void DowloadPdf_FromHTMLTest()
         {
-            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.DowloadPdfFromExcel();
-            File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары from Excel.pdf", pdfByte.FileContents);
+            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download_PDF_HTML();
+            //File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары from Excel.pdf", pdfByte.FileContents);
+            var file = File.ReadAllBytes("Заказанные товары из HTML.pdf");
 
-            Assert.IsTrue(true);
+            Assert.AreEqual(file.ToList().Count, pdfByte.FileContents.Count(), "Файлы не совпадают что то произошло");
         }
     }
 }

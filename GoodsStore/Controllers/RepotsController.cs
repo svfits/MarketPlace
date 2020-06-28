@@ -28,7 +28,7 @@ namespace GoodsStore.Controllers
             _context = context;
         }
 
-        public IActionResult DownloadExcel()
+        public IActionResult Download_Excel()
         {
             byte[] fileContents;
             var productInBasket = GetProductBasket();
@@ -96,7 +96,7 @@ namespace GoodsStore.Controllers
                 .ToList();
         }
 
-        public IActionResult DownloadPdf()
+        public IActionResult Download_PDF()
         {
             byte[] fileContents;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -148,32 +148,17 @@ namespace GoodsStore.Controllers
             );
         }
 
-        public IActionResult DowloadPdfFromExcel()
+        public IActionResult Download_PDF_HTML()
         {
             byte[] fileContents;
 
             Workbook workbook = new Workbook();
 
-            var excelByte = (FileContentResult)DownloadExcel();
-
-            var str = @"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\NuGet Gallery _ HtmlRenderer.PdfSharp 1.5.0.6.mhtml";
-
-            //MemoryStream msExcel = new MemoryStream(excelByte.FileContents);
-
-            //MemoryStream msPDF = new MemoryStream();
-
-            //workbook.LoadTemplateFromFile(str);
-
-            //workbook.SaveToStream(msPDF, FileFormat.PDF);
-
-            //fileContents = msPDF.ToArray();
-            //msExcel.Dispose();
-            //msPDF.Dispose();
+            var excelByte = (FileContentResult)Download_Excel();           
 
             using (MemoryStream ms = new MemoryStream())
             {
-                //var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(str, PdfSharp.PageSize.A4);
-                PdfDocument pdf = PdfGenerator.GeneratePdf("<p><h1>Hello World</h1>This is html rendered text</p>", PageSize.A4);
+                PdfDocument pdf = PdfGenerator.GeneratePdf("<p><h1>Hello World</h1><br>This is html rendered text</p>", PageSize.A4);
                 pdf.Save(ms);
                 fileContents = ms.ToArray();
             }

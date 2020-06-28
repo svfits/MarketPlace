@@ -22,6 +22,9 @@
     <None Update="TestingFile\DataContextTEST.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestingFile\Заказанные товары из HTML.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestingFile\Заказанные товары.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
