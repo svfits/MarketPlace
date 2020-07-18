@@ -152,10 +152,6 @@ namespace GoodsStore.Controllers
         {
             byte[] fileContents;
 
-            Workbook workbook = new Workbook();
-
-            var excelByte = (FileContentResult)Download_Excel();           
-
             using (MemoryStream ms = new MemoryStream())
             {
                 PdfDocument pdf = PdfGenerator.GeneratePdf("<p><h1>Hello World</h1><br>This is html rendered text</p>", PageSize.A4);
