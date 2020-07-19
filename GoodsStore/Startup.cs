@@ -44,7 +44,6 @@ namespace GoodsStore
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new PathString("/Account/Login");
-
                 });
 
             services.ConfigureApplicationCookie(options =>
@@ -157,6 +156,18 @@ namespace GoodsStore
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+                // specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Œ· API");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Œ· API2");
+                    c.SwaggerEndpoint("/swagger/v3/swagger.json", "Œ· API3");
+                });
             }
 
             app.UseSession();
@@ -174,22 +185,6 @@ namespace GoodsStore
                 //endpoints.MapControllerRoute(name: "API",
                 //    pattern: "controller=api/API/{action}/{id?}");
             });
-
-#if DEBUG
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Œ· API");
-                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Œ· API2");
-                c.SwaggerEndpoint("/swagger/v3/swagger.json", "Œ· API3");
-            });
-
-#endif
 
             RoleInitializer(serviceProvider);
 
