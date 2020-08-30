@@ -15,15 +15,10 @@ namespace GoodsStore.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// GUID заведения
+        /// Task GUID 
         /// </summary>
         public Guid GuidCreated { get; set; }
-
-        /// <summary>
-        /// Дата и время создания заявки
-        /// </summary>
-        public DateTime Create { get; set; }
-
+        
         /// <summary>
         /// Статус заявки
         /// </summary>
@@ -32,7 +27,7 @@ namespace GoodsStore.Models
         /// <summary>
         /// Дата и время изменения заявки
         /// </summary>
-        public DateTime DataTimeСhanges { get; set; }
+        public DateTime TimeeStamp { get; set; }
     }
 
     public enum StatusTask

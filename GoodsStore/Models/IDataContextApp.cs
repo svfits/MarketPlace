@@ -10,5 +10,7 @@ namespace GoodsStore.Models
         DbSet<Category> Category { get; set; }
         DbSet<Product> Product { get; set; }
         DbSet<RegisterViewModel> RegisterViewModel { get; set; }
+
+        DbSet<TasksService> TasksServices { get; set; }
     }
 }

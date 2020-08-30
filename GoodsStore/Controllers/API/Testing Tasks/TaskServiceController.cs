@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GoodsStore.Models;
+using GoodsStore.Models.DTO.Task;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,21 +31,23 @@ namespace GoodsStore.Controllers.API1
         /// <returns>Массив всех данных</returns>
         [HttpGet]
         [Route("/task/{id}")]
-        public async Task<ActionResult<TasksService>> Get(Guid id)
+        public async Task<ActionResult<GetTask>> Get(Guid id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var data = await _context.TasksService.FirstOrDefaultAsync(r => r.GuidCreated == id);
+            var data = await _context.TasksServices.FirstOrDefaultAsync(r => r.GuidCreated == id);
 
             if (data == null)
             {
                 return NotFound();
             }
 
-            return Ok(data);
+            var dataDTO = (GetTask)data;
+
+            return Ok(dataDTO);
         }
 
         /// <summary>
@@ -52,63 +55,23 @@ namespace GoodsStore.Controllers.API1
         /// </summary>
         /// <param name="value"></param>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Guid>> Post()
         {
-            _context.APIDatas.Add(new APIData()
+            if (!ModelState.IsValid)
             {
-                Value = value,
-                Value2 = value,
+                return BadRequest(ModelState);
+            }
+
+            var data = _context.TasksServices.Add(new TasksService
+            {
+                StatusTask = StatusTask.created,
+                GuidCreated = Guid.NewGuid(),
+                TimeeStamp = DateTime.Now,
             });
 
-            _context.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Чего то обновить
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] APIData data)
-        {
-            var api = await _context.APIDatas.FirstOrDefaultAsync(m => m.Id == id);
-            if (api == null)
-            {
-                return NotFound();
-            }
-
-            api.Value = data.Value;
-            api.Value2 = data.Value2;
-
-            _context.APIDatas.Update(api);
             await _context.SaveChangesAsync();
 
-            return Ok();
-        }
-
-        /// <summary>
-        /// Удалить элемент id
-        /// </summary>
-        /// <param name="id"></param>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var api = await _context.APIDatas.FirstOrDefaultAsync(m => m.Id == id);
-            if (api == null)
-            {
-                return NotFound();
-            }
-
-            _context.APIDatas.Remove(api);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return Ok(data.Entity.GuidCreated);
         }
     }
 }

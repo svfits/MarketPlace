@@ -26,6 +26,6 @@ namespace GoodsStore.Models
         /// <summary>
         /// Задачи
         /// </summary>
-        public DbSet<TasksService> TasksService { get; set; }
+        public DbSet<TasksService> TasksServices { get; set; }       
     }
 }
