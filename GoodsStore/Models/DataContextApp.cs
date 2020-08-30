@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GoodsStore.Models;
 using GoodsStore.ViewsModel;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace GoodsStore.Models
 {
@@ -19,12 +15,17 @@ namespace GoodsStore.Models
 
         public DbSet<Basket> Baskets { get; set; }
 
-        public DbSet<GoodsStore.Models.Product> Product { get; set; }
+        public DbSet<Product> Product { get; set; }
 
-        public DbSet<GoodsStore.Models.Category> Category { get; set; }
+        public DbSet<Category> Category { get; set; }
 
-        public DbSet<GoodsStore.ViewsModel.RegisterViewModel> RegisterViewModel { get; set; }
+        public DbSet<RegisterViewModel> RegisterViewModel { get; set; }
 
         public DbSet<APIData> APIDatas { get; set; }
+
+        /// <summary>
+        /// Задачи
+        /// </summary>
+        public DbSet<TasksService> TasksService { get; set; }
     }
 }

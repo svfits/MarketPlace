@@ -67,8 +67,8 @@ namespace GoodsStore
             services.AddMvc()
               .AddSessionStateTempDataProvider();
 
-            services.AddDbContext<DataContextApp>(options =>
-                 options.UseSqlite("DataSource=GoodStore.db"));
+            services.AddDbContext<DataContextApp>(options => options.UseSqlite("DataSource=GoodStore.db"));
+
 
             // Register the service and implementation for the database context
             services.AddScoped<IDataContextApp>(provider => provider.GetService<DataContextApp>());
@@ -138,6 +138,24 @@ namespace GoodsStore
                         Url = new Uri("https://vk.com/svfits"),
                     }
                 });
+                c.SwaggerDoc("TaskService", new OpenApiInfo
+                {
+                    Version = "Тестовое задание",
+                    Title = "Тестовое задание",
+                    Description = "Тестовое задание_Dev",
+                    TermsOfService = new Uri("https://vk.com/svfits"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Афанасьев Дмитрий",
+                        Email = "a1d1@inbox.ru",
+                        Url = new Uri("https://vk.com/svfits"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "лицензия MIT",
+                        Url = new Uri("https://vk.com/svfits"),
+                    }
+                });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -155,20 +173,21 @@ namespace GoodsStore
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-
-                // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
-
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                // specifying the Swagger JSON endpoint.
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Об API");
-                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Об API2");
-                    c.SwaggerEndpoint("/swagger/v3/swagger.json", "Об API3");
-                });
+                app.UseExceptionHandler("/Home/Error");            
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Об API");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Об API2");
+                c.SwaggerEndpoint("/swagger/v3/swagger.json", "Об API3");
+                c.SwaggerEndpoint("/swagger/TaskService/swagger.json", "TaskService");
+            });
 
             app.UseSession();
             app.UseStaticFiles();
@@ -181,9 +200,7 @@ namespace GoodsStore
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Baskets}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-                //endpoints.MapControllerRoute(name: "API",
-                //    pattern: "controller=api/API/{action}/{id?}");
+                endpoints.MapRazorPages();             
             });
 
             RoleInitializer(serviceProvider);
@@ -199,7 +216,7 @@ namespace GoodsStore
         {
             var db = serviceProvider.GetRequiredService<DataContextApp>();
 
-            if (db.APIDatas.Take(25).Count() < 100)
+            if (db.APIDatas.Count() < 100)
             {
                 for (int i = 0; i < 20; i++)
                 {

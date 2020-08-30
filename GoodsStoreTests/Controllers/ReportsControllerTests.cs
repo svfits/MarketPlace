@@ -40,7 +40,6 @@ namespace GoodsStore.Controllers.Tests
             service = new RepotsController(mockContext.Object);
         }
 
-
         [TestMethod()]
         [DeploymentItem("TestingFile\\Заказанные товары.xlsx")]
         public void Dowload_ExcelTest()
@@ -53,32 +52,6 @@ namespace GoodsStore.Controllers.Tests
             var file = File.ReadAllBytes("Заказанные товары.xlsx");
 
             Assert.AreEqual(excelByte.FileContents.Count(), file.ToList().Count, "Файлы не совпадают что то произошло");
-        }
-
-        [TestMethod()]
-        [DeploymentItem("TestingFile\\Заказанные товары.pdf")]
-        public void Download_PdfTest()
-        {
-            //var service = new RepotsController(mockContext.Object);
-            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download_PDF();
-
-            ///тута можно отправить файл дальше на проверку что форматирование правильное
-            //File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары.pdf", pdfByte.FileContents);
-
-            var file = File.ReadAllBytes("Заказанные товары.pdf");
-
-            Assert.AreEqual(file.ToList().Count, pdfByte.FileContents.Count(), "Файлы не совпадают что то произошло");
-        }
-
-        [TestMethod()]
-        [DeploymentItem("TestingFile\\Заказанные товары из HTML.pdf")]
-        public void DowloadPdf_FromHTMLTest()
-        {
-            var pdfByte = (Microsoft.AspNetCore.Mvc.FileContentResult)service.Download_PDF_HTML();
-            //File.WriteAllBytes(@"D:\Projects\MarketPlace\GoodsStoreTests\TestingFile\Заказанные товары from Excel.pdf", pdfByte.FileContents);
-            var file = File.ReadAllBytes("Заказанные товары из HTML.pdf");
-
-            Assert.AreEqual(file.ToList().Count, pdfByte.FileContents.Count(), "Файлы не совпадают что то произошло");
         }
     }
 }

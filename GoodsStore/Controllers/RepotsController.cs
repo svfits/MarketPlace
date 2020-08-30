@@ -113,23 +113,8 @@ namespace GoodsStore.Controllers
 
             // Create a font
             XFont font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
-
-            // Draw the text
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
+           
             gfx.DrawString("Привет МИР!!! ", font, XBrushes.Black, 22, 45);
-
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.BaseLineRight);
-            //gfx.DrawString("Привет МИР!!! ККККККККККККККККкккккккккккккк", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.BaseLineLeft);
-
 
             MemoryStream ms = new MemoryStream();
             document.Save(ms);
@@ -148,27 +133,6 @@ namespace GoodsStore.Controllers
             );
         }
 
-        public IActionResult Download_PDF_HTML()
-        {
-            byte[] fileContents;
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                PdfDocument pdf = PdfGenerator.GeneratePdf("<p><h1>Hello World</h1><br>This is html rendered text</p>", PageSize.A4);
-                pdf.Save(ms);
-                fileContents = ms.ToArray();
-            }
-
-            if (fileContents == null || fileContents.Length == 0)
-            {
-                return NotFound();
-            }
-
-            return File(
-                fileContents: fileContents,
-                contentType: "application/pdf",
-                fileDownloadName: "Заказанные товары.pdf"
-            );
-        }
+        
     }
 }
