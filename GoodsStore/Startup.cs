@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using GoodsStore.Models;
+using GoodsStore.SchedulerTask;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -68,7 +68,6 @@ namespace GoodsStore
               .AddSessionStateTempDataProvider();
 
             services.AddDbContext<DataContextApp>(options => options.UseSqlite("DataSource=GoodStore.db"));
-
 
             // Register the service and implementation for the database context
             services.AddScoped<IDataContextApp>(provider => provider.GetService<DataContextApp>());
@@ -162,6 +161,8 @@ namespace GoodsStore
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            
+            services.AddSingleton<IBackgroundTask, BackgroundTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -173,7 +174,7 @@ namespace GoodsStore
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");            
+                app.UseExceptionHandler("/Home/Error");
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -200,7 +201,7 @@ namespace GoodsStore
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Baskets}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();             
+                endpoints.MapRazorPages();
             });
 
             RoleInitializer(serviceProvider);

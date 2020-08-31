@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoodsStore.Controllers.API3
+namespace GoodsStore.Controllers.API2
 {
     /// <summary>
     /// Второй API контроллер

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using GoodsStore.Models;
 using GoodsStore.Models.DTO.Task;
+using GoodsStore.SchedulerTask;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoodsStore.Controllers.API1
+namespace GoodsStore.Controllers.TaskService
 {
     /// <summary>
     /// Первый API контроллер
@@ -20,15 +19,19 @@ namespace GoodsStore.Controllers.API1
     {
         private readonly DataContextApp _context;
 
-        public TaskServiceController(DataContextApp context)
+        public IBackgroundTask BackgroundTask { get; }
+
+        public TaskServiceController(DataContextApp context, IBackgroundTask BackgroundTask)
         {
             _context = context;
+            this.BackgroundTask = BackgroundTask;
         }
 
         /// <summary>
         /// Получить значение по GUID
         /// </summary>
-        /// <returns>Массив всех данных</returns>
+        /// <param name="id">Индификатор записи</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("/task/{id}")]
         public async Task<ActionResult<GetTask>> Get(Guid id)
@@ -51,9 +54,9 @@ namespace GoodsStore.Controllers.API1
         }
 
         /// <summary>
-        /// Добавить значение value
+        /// Добавить новый Task
         /// </summary>
-        /// <param name="value"></param>
+        /// <returns>GUID добавленой записи</returns>
         [HttpPost]
         public async Task<ActionResult<Guid>> Post()
         {
@@ -70,8 +73,15 @@ namespace GoodsStore.Controllers.API1
             });
 
             await _context.SaveChangesAsync();
+            var guid = data.Entity.GuidCreated;
 
-            return Ok(data.Entity.GuidCreated);
+            var dataForChanged = await _context.TasksServices.FirstAsync(q => q.GuidCreated == guid);
+            dataForChanged.StatusTask = StatusTask.running;
+            await _context.SaveChangesAsync();
+
+            BackgroundTask.RunTask(dataForChanged.Id);
+
+            return StatusCode(202, guid);
         }
     }
 }
